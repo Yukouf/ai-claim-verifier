@@ -1,26 +1,31 @@
 # ⚖️ Freya Truth Protocol
 
-**Trois rôles IA confrontent une affirmation pour produire un verdict argumenté.**
+<p align="center">
+  <a href="README.md">English</a> &bull;
+  <a href="README_fr.md">Français</a>
+</p>
 
-Tu donnes une affirmation. Trois agents IA débattent :
+**Three AI roles confront a claim to produce a reasoned verdict.**
 
-| Agent | Rôle |
+A claim is provided. Three AI agents debate it:
+
+| Agent | Role |
 |---|---|
-| 🟢 **Defender** | Défend l'affirmation avec des preuves |
-| 🔴 **Challenger** | La contredit, trouve les failles |
-| ⚖️ **Judge** | Tranche : VRAI / FAUX / INCERTAIN + score de confiance |
+| 🟢 **Defender** | Defends the claim with evidence |
+| 🔴 **Challenger** | Contradicts it and finds the flaws |
+| ⚖️ **Judge** | Decides: TRUE / FALSE / UNCERTAIN + confidence score |
 
-![Architecture réelle du protocole](truth-diagram.svg)
+![Actual architecture of the protocol](truth-diagram.svg)
 
-Les trois rôles sont exécutés **séquentiellement par le même modèle configuré**. Le Challenger reçoit la défense, puis le Judge reçoit les deux réponses. Le programme n’effectue aucune recherche documentaire ; toute erreur API interrompt le pipeline avec un code non nul et sans verdict.
+The three roles are executed **sequentially by the same configured model**. The Challenger receives the defense, then the Judge receives both answers. The program performs no documentary research; any API error halts the pipeline with a non-zero code and no verdict.
 
-## Pourquoi ?
+## Why?
 
-Les LLMs sont entraînés pour être **fluides**, pas **vrais**. Un seul modèle peut affirmer n'importe quoi avec aplomb.
+LLMs are trained to be **fluent**, not **true**. A single model can assert anything with confidence.
 
-Le protocole fait intervenir trois rôles successifs d'un même modèle : défense,
-contradiction et synthèse. Cette confrontation peut faire émerger des objections,
-mais elle **ne vérifie pas les sources et n'établit pas une vérité objective**.
+The protocol brings in three successive roles of a single model: defense,
+contradiction and synthesis. This confrontation can surface objections,
+but it **does not verify sources and does not establish an objective truth**.
 
 ## Installation
 
@@ -29,93 +34,93 @@ git clone https://github.com/Yukouf/freya-truth-protocol.git
 cd freya-truth-protocol
 ```
 
-## Utilisation
+## Usage
 
 ```bash
-# Avec DeepSeek (par défaut)
+# With DeepSeek (default)
 export DEEPSEEK_API_KEY=sk-...
-python3 truth-debate.py "L'IA va remplacer les développeurs d'ici 2030"
+python3 truth-debate.py "AI will replace developers by 2030"
 
-# Avec OpenAI
+# With OpenAI
 export OPENAI_API_KEY=sk-...
 export TRUTH_API_URL=https://api.openai.com/v1
 export TRUTH_MODEL=gpt-4o
-python3 truth-debate.py "Le réchauffement est causé par l'homme"
+python3 truth-debate.py "Global warming is caused by humans"
 
-# Avec Ollama (local)
+# With Ollama (local)
 export TRUTH_API_URL=http://localhost:11434/v1
 export TRUTH_MODEL=qwen2.5
-export OPENAI_API_KEY=ollama  # Ollama ignore la clé mais le format l'exige
-python3 truth-debate.py "Bitcoin dépassera 200k$ en 2025"
+export OPENAI_API_KEY=ollama  # Ollama ignores the key but the format requires it
+python3 truth-debate.py "Bitcoin will exceed 200k$ in 2025"
 ```
 
-## Exemple de sortie
+## Example output
 
 ```
 ══════════════════════════════════════════════════════
-🎯 AFFIRMATION : L'IA va remplacer les développeurs d'ici 2030
+🎯 CLAIM: AI will replace developers by 2030
 ══════════════════════════════════════════════════════
 
-🟢 DEFENDER — Je défends...
-Arguments : automatisation massive, scalabilité, no-code...
-Score : 8/10
+🟢 DEFENDER: defending the claim...
+Arguments: massive automation, scalability, no-code...
+Score: 8/10
 
-🔴 CHALLENGER — Je contredis...
-Failles : confusion assistance/remplacement, legacy code, responsabilité...
-Score de contradiction : 7/10
+🔴 CHALLENGER: contradicting the claim...
+Flaws: confusion between assistance and replacement, legacy code, accountability...
+Contradiction score: 7/10
 
-⚖️  JUDGE — Je tranche...
-Verdict : INCERTAIN (confiance 7/10)
-Les devs CRUD sont menacés, les devs systèmes complexes non.
+⚖️  JUDGE: ruling on the claim...
+Verdict: UNCERTAIN (confidence 7/10)
+CRUD developers are threatened, complex-systems developers are not.
 ```
 
-## Échec fermé (fail-closed)
+## Fail-closed
 
-Ce protocole ne prétend **jamais** établir la vérité. Si l'un des agents ne
-répond pas (clé absente, erreur réseau, quota, code non-2xx, réponse vide…),
-le débat s'arrête immédiatement et le script sort avec un **code de retour
-non nul**, **sans** afficher de synthèse ni de verdict. Aucune clé n'est
-utilisée si elle est absente, et aucun appel réseau n'est tenté sans clé.
+This protocol **never** claims to establish the truth. If one of the agents does
+not respond (missing key, network error, quota, non-2xx code, empty response...),
+the debate stops immediately and the script exits with a **non-zero return
+code**, **without** displaying any synthesis or verdict. No key is used if it
+is absent, and no network call is attempted without a key.
 
 ```bash
-# Sans DEEPSEEK_API_KEY / OPENAI_API_KEY
-python3 truth-debate.py "L'IA va remplacer les développeurs d'ici 2030"
-# → ❌ Définis DEEPSEEK_API_KEY ou OPENAI_API_KEY   (code de retour : 1)
+# Without DEEPSEEK_API_KEY / OPENAI_API_KEY
+python3 truth-debate.py "AI will replace developers by 2030"
+# → ❌ Set DEEPSEEK_API_KEY or OPENAI_API_KEY   (exit code: 1)
 ```
 
 ## Tests
 
-Les tests (`python3 test_truth_debate.py`) vérifient l'échec fermé **sans
-aucun appel réseau réel** : `urllib.request.urlopen` est remplacé par un faux
-qui simule succès ou échec.
+The tests (`python3 test_truth_debate.py`) verify the fail-closed behaviour
+**without any real network call**: `urllib.request.urlopen` is replaced by a fake
+that simulates success or failure.
 
 ```bash
 python3 test_truth_debate.py
 ```
 
-Cas couverts : pas de clé (`main` non nul, zéro appel réseau), échec du 1er
-agent, échec d'un agent + pas de verdict, `debate()` qui lève `AgentAPIError`
-(→ jamais de dict « verdict » terni), chemin nominal → verdict et code 0, et
-absence de clé secrète en dur dans le source.
+Cases covered: no key (`main` non-zero, zero network calls), failure of the 1st
+agent, failure of one agent + no verdict, `debate()` raising `AgentAPIError`
+(→ never a tainted "verdict" dict), nominal path → verdict and exit code 0, and
+no secret key hard-coded in the source.
 
-## Compatible avec
+## Compatible with
 
-- **DeepSeek** (par défaut, pas cher)
+- **DeepSeek** (default, inexpensive)
 - **OpenAI** (GPT-4o, GPT-4)
-- **Ollama** (local, gratuit)
-- **Groq, Together, Fireworks** — tout ce qui parle OpenAI API
+- **Ollama** (local, free)
+- **Groq, Together, Fireworks**: anything that speaks the OpenAI API
 
 ## Structure
 
 ```
 freya-truth-protocol/
-├── truth-debate.py       # Le script principal
-├── truth-diagram.svg     # Architecture actuelle
-├── RESEARCH_ROADMAP.md   # Audit et feuille de route
-├── README.md             # Ce fichier
+├── truth-debate.py       # The main script
+├── truth-diagram.svg     # Current architecture
+├── RESEARCH_ROADMAP.md   # Audit and roadmap
+├── README.md             # This file
 └── .gitignore
 ```
 
-## Licence
+## License
 
-MIT — fais-en ce que tu veux.
+MIT: do whatever you want with it.
