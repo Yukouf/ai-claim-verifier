@@ -1,4 +1,4 @@
-# ⚖️ Freya Truth Protocol
+# ⚖️ AI Claim Verifier
 
 <p align="center">
   <a href="README.md">English</a> &bull;
@@ -30,8 +30,8 @@ mais elle **ne vérifie pas les sources et n'établit pas une vérité objective
 ## Installation
 
 ```bash
-git clone https://github.com/Yukouf/freya-truth-protocol.git
-cd freya-truth-protocol
+git clone https://github.com/Yukouf/ai-claim-verifier.git
+cd ai-claim-verifier
 ```
 
 ## Utilisation
@@ -113,7 +113,7 @@ absence de clé secrète en dur dans le source.
 ## Structure
 
 ```
-freya-truth-protocol/
+ai-claim-verifier/
 ├── truth-debate.py       # Le script principal
 ├── truth-diagram.svg     # Architecture actuelle
 ├── RESEARCH_ROADMAP.md   # Audit et feuille de route

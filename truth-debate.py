@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-⚖️ Freya Truth Protocol — Débat multi-agent
+⚖️ AI Claim Verifier — Débat multi-agent
 
 3 agents IA débattent d'une affirmation :
   🟢 Defender  → défend avec des preuves

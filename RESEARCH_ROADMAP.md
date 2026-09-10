@@ -1,4 +1,4 @@
-# Freya Truth Protocol — audit de recherche et feuille de route
+# AI Claim Verifier — audit de recherche et feuille de route
 
 **Date :** 10 août 2026
 **Périmètre :** `truth-debate.py`, `README.md`, `truth-diagram.svg`, comportement CLI, littérature sur le débat multi-agent, la factualité et les juges LLM.
@@ -335,11 +335,11 @@ Sinon, la formulation honnête est :
 Structure proposée, sans framework lourd :
 
 ```text
-freya-truth-protocol/
+ai-claim-verifier/
 ├── pyproject.toml
 ├── LICENSE
 ├── README.md
-├── src/freya_truth/
+├── src/claim_verifier/
 │   ├── cli.py
 │   ├── config.py
 │   ├── client.py
@@ -369,9 +369,9 @@ Le protocole compte peu d'étapes et a surtout besoin de garanties vérifiables.
 ### CLI cible
 
 ```bash
-freya-truth check "affirmation" --json
-freya-truth check --file claim.txt --evidence web --max-cost 0.05
-freya-truth benchmark --dataset simpleqa --baseline single,self-consistency,debate
+claim-verify check "affirmation" --json
+claim-verify check --file claim.txt --evidence web --max-cost 0.05
+claim-verify benchmark --dataset simpleqa --baseline single,self-consistency,debate
 ```
 
 Options minimales :
@@ -535,6 +535,6 @@ Options minimales :
 
 ## Conclusion
 
-La meilleure évolution de Freya Truth Protocol n'est pas de devenir un théâtre de plusieurs personnalités. Elle est de devenir un **instrument expérimental falsifiable** : sorties strictes, preuves traçables, pannes visibles, attaques mesurées, baselines honnêtes et coûts publiés.
+La meilleure évolution de AI Claim Verifier n'est pas de devenir un théâtre de plusieurs personnalités. Elle est de devenir un **instrument expérimental falsifiable** : sorties strictes, preuves traçables, pannes visibles, attaques mesurées, baselines honnêtes et coûts publiés.
 
 Le projet aura alors une vraie valeur : non pas prétendre posséder la vérité, mais montrer précisément **quand**, **pourquoi** et **à quel coût** un débat entre modèles améliore — ou n'améliore pas — une décision factuelle.
